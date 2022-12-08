@@ -35,7 +35,7 @@
             <p style="font-size: 20px">
                 Item status: {{ doc.status }} <br>
             </p>
-            {% if doc.status == "availible" %}
+            {% if doc.status == "available" %}
                 <a class="purchase_link" href="{{ url_for('edit',mongoid=doc._id)}}">Buy this item</a>
             {% elif doc.status == "pending" %}
                 <a class="purchase_link" href="{{ url_for('cancel_transaction',mongoid=doc._id)}}">Cancel transaction</a> | 
