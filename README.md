@@ -1,5 +1,9 @@
-# Flask-MongoDB Web App
+# NYU Marketplace
 
-In this assignment you will create a web app that relies upon a MongoDB database.
+The NYU Marketplace web app is where anyone can go to post their second hand items to sell. The website is sole a outreach platform, it does not facilitate transactions, the users will leave their contact information on the website, and contact each other privately to make the transactions. 
 
-Replace the contents of this file with a description of your own web app, as described in [the instructions](./instructions.md).
+
+## Developer
+Name: Andrew Xu
+NetID: hx2138
+Github account: https://github.com/andrewxhc
