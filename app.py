@@ -10,8 +10,8 @@ import subprocess
 
 
 # connect atlas database
-client = pymongo.MongoClient("mongodb+srv://andrewxhc:20030227xhcAnd!@webappdb.uevewag.mongodb.net/?retryWrites=true&w=majority")
-db = client.WebappDB
+# client = pymongo.MongoClient("mongodb+srv://andrewxhc:20030227xhcAnd!@webappdb.uevewag.mongodb.net/?retryWrites=true&w=majority")
+# db = client.WebappDB
 
 # instantiate the app
 app = Flask(__name__)
@@ -27,11 +27,11 @@ if config['FLASK_ENV'] == 'development':
     app.debug = True # debug mnode
 
 # make one persistent connection to the database
-# connection = pymongo.MongoClient(config['MONGO_HOST'], 27017, 
-#                                 username=config['MONGO_USER'],
-#                                 password=config['MONGO_PASSWORD'],
-#                                 authSource=config['MONGO_DBNAME'])
-# db = connection[config['MONGO_DBNAME']] # store a reference to the database
+connection = pymongo.MongoClient(config['MONGO_HOST'], 27017, 
+                                username=config['MONGO_USER'],
+                                password=config['MONGO_PASSWORD'],
+                                authSource=config['MONGO_DBNAME'])
+db = connection[config['MONGO_DBNAME']] # store a reference to the database
 
 # set up the routes
 
