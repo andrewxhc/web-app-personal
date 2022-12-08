@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Flask-MongoDB Example App</title>
+    <meta charset="utf-8" />
+    <title>NYU Marketplace</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
   </head>
   <body>
-    <div class="container">
-      <header>
-        <h1>Flask-MongoDB Example App</h1>
-        <p>
-          <a href="{{ url_for('home')}}">Home</a> |
-          <a href="{{ url_for('read')}}">All posts</a> |
-          <a href="{{ url_for('create')}}">Create a post</a>
-        </p>
+    <!-- <div class="container"> -->
+      <header class="header">
+        <h1>NYU Marketplace</h1>
       </header>
+      <nav class="navbar">
+        <a href="{{ url_for('home')}}">Home</a> |
+        <a href="{{ url_for('read')}}">Item Postings</a> |
+        <a href="{{ url_for('create')}}">Sell an Item</a>
+      </nav>
       <main>{% block container %} {% endblock %}</main>
       <footer>
         <p>
-          The source code for this example app is
-          <a href="https://github.com/nyu-database-design/flask-mongodb-example"
-            >available on Github</a
-          >.
+          Developed by Andrew Xu <br>
+          hx2138@nyu.edu
         </p>
       </footer>
-    </div>
+    <!-- </div> -->
   </body>
 </html>

@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% block container %}
+<h2>Finalize Transaction</h2>
+<form method="POST" action="{{ url_for('delete_post', mongoid=mongoid) }}">
+  <p style="font-size: 20px">
+    DO NOT procede if you did not contact the seller and finish the transaction! <br>
+    By pressing <b>confirm</b> you are confirming that the sale has been finalized, the payment has been sent, and the item has been received. <br>
+    The original post will be removed. 
+  </p>
+  <p>
+    <a href="{{ url_for('read')}}">Cancel</a>
+    <input type="submit" name="post-btn" value="Confirm" />
+  </p>
+</form>
+{% endblock %}

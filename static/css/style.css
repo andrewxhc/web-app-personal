@@ -1,7 +1,10 @@
 .container {
   border: 2px solid;
-  width: 50%;
+  width: 100%;
   margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: antiquewhite;
 }
 
 header,
@@ -16,10 +19,32 @@ main {
   margin-bottom: 5px;
 }
 
-p.post {
-  font-size: 12px;
-}
 
 footer {
   margin-bottom: 5px;
+}
+
+h3#seller_name {
+    font-size: 30px;
+}
+
+p#item {
+    font-size: 20px;
+}
+
+p#contact_info {
+    /* background-color: antiquewhite; */
+    font-size: 16px;
+}
+
+
+header.header {
+    background-color: blueviolet;
+}
+
+a.purchase_link {
+    /* margin-top: 20px; */
+    color:white;
+    background-color: gray;
+    border: 2px solid gray;
 }

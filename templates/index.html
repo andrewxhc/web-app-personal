@@ -2,10 +2,15 @@
 
 {% block container %}
 <h2>Welcome!</h2>
-<p>Welcome to the Flask app. This is the home page. Here are a few links to example pages you might find interesting.
-    <ul>
-        <li><a href="{{ url_for('read')}}">a page that displays information pulled from a MongoDB database collection</a></li>
-        <li><a href="{{ url_for('create')}}">a page with a form you can submit to create a new record in a MongoDB collection</a></li>
+<p style="font-size: 20px">
+    Welcome to NYU Marketplace. This is an online space where sellers can create postings to sell their used items. <br>
+    <ul style="font-size: 20px">
+        <li>
+            The <a href="{{ url_for('read')}}">Item Postings</a> page shows the current existing posts on the marketplace. 
+        </li>
+        <li>
+            The <a href="{{ url_for('create')}}">Sell an Item</a> page lets you submit your own post to the postings list. 
+        </li>
     </ul>
 </p>
 {% endblock %}

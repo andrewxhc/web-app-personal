@@ -1,22 +1,51 @@
 {% extends 'base.html' %}
 
 {% block container %}
-<h2>Read</h2>
-<p>This page shows information pulled from a MongoDB database collection.
+<h2>Postings</h2>
+<p style="font-size: 20px">
+    Here are all of the seller postings on the website. <br>
+    To start: 
+    <ol style="font-size: 20px">
+        <li>
+            Click <u>Buy this item</u> to start a transaction. 
+        </li>
+        <li>
+            When item is in pending, click <u>cancel transaction</u> to cancel, or <u>finalize transaction</u> if the payment and item has been received. 
+        </li>
+    </ol>
         
     {% for doc in docs %}
-    <div>
-        <hr class="solid">
-        <p class="post">
-            Posted by {{doc.name}} at {{ doc.created_at.strftime("%H:%M on %d %B %Y") }}
-            </br>
-            <a href="{{ url_for('edit',mongoid=doc._id)}}">Edit</a> | <a href="{{ url_for('delete',mongoid=doc._id)}}">Delete</a>
-            </br>
-        </p>
+    <br>
+    <div class="container">
         <p>
-            {{ doc.message }}
-        </p>
-            
+            <h3 id="seller_name">
+                {{ doc.seller }}
+            </h3>
+            <p id="contact_info">
+                Contacts: <br> 
+                {{ doc.email }} <br>
+                {{ doc.phone }} <br>
+                {{ doc.location }} <br>
+            </p>
+            <p id="item">
+                Item name: {{ doc.item_name }} <br>
+                Asking price: ${{ doc.item_price }} <br>
+                Description: {{ doc.item_description }} <br>
+            </p>
+            <p style="font-size: 20px">
+                Item status: {{ doc.status }} <br>
+            </p>
+            {% if doc.status == "availible" %}
+                <a class="purchase_link" href="{{ url_for('edit',mongoid=doc._id)}}">Buy this item</a>
+            {% elif doc.status == "pending" %}
+                <a class="purchase_link" href="{{ url_for('cancel_transaction',mongoid=doc._id)}}">Cancel transaction</a> | 
+                <a class="purchase_link" href="{{ url_for('delete',mongoid=doc._id)}}">Finalize sale</a>
+            {% endif %}
+            <p id="timestamp">
+                Posted on {{ doc.created_at.strftime("%d %B %Y at %H:%M") }}
+            </p>
+
+        </p> 
     </div>
     {%endfor%}
 </p>

@@ -1,10 +1,15 @@
 {% extends 'base.html' %} {% block container %}
-<h2>Create</h2>
-<p>Create a new record in the MongoDB database collection.</p>
+<h2>Create a Post</h2>
+<p>Make a new post for the item you want to sell.</p>
 <form method="POST" action="{{ url_for('create_post') }}">
   <p>Your name: <input type="text" id="fname" name="fname" /><br /></p>
+  <p>Email: <input type="text" id="femail" name="femail" /><br /></p>
+  <p>Phone: <input type="text" id="fphone" name="fphone" /><br /></p>
+  <p>Location: <input type="text" id="flocation" name="flocation" /><br /></p>
+  <p>Item name: <input type="text" id="fitem" name="fitem" /><br /></p>
+  <p>Item price: <input type="text" id="fprice" name="fprice" /><br /></p>
   <p>
-    Message:
+    Item description:
     <textarea type="text" id="fmessage" name="fmessage"></textarea>
   </p>
   <p>

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from markupsafe import escape
@@ -7,6 +7,11 @@ import datetime
 from bson.objectid import ObjectId
 import os
 import subprocess
+
+
+# connect atlas database
+client = pymongo.MongoClient("mongodb+srv://andrewxhc:20030227xhcAnd!@webappdb.uevewag.mongodb.net/?retryWrites=true&w=majority")
+db = client.WebappDB
 
 # instantiate the app
 app = Flask(__name__)
@@ -22,11 +27,11 @@ if config['FLASK_ENV'] == 'development':
     app.debug = True # debug mnode
 
 # make one persistent connection to the database
-connection = pymongo.MongoClient(config['MONGO_HOST'], 27017, 
-                                username=config['MONGO_USER'],
-                                password=config['MONGO_PASSWORD'],
-                                authSource=config['MONGO_DBNAME'])
-db = connection[config['MONGO_DBNAME']] # store a reference to the database
+# connection = pymongo.MongoClient(config['MONGO_HOST'], 27017, 
+#                                 username=config['MONGO_USER'],
+#                                 password=config['MONGO_PASSWORD'],
+#                                 authSource=config['MONGO_DBNAME'])
+# db = connection[config['MONGO_DBNAME']] # store a reference to the database
 
 # set up the routes
 
@@ -44,7 +49,8 @@ def read():
     Route for GET requests to the read page.
     Displays some information for the user with links to other pages.
     """
-    docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
+    docs = db.posts.find({}).sort("post_time", -1) # sort in descending order of created_at timestamp
+    print(docs)
     return render_template('read.html', docs=docs) # render the read template
 
 
@@ -63,17 +69,28 @@ def create_post():
     Route for POST requests to the create page.
     Accepts the form submission data for a new document and saves the document to the database.
     """
-    name = request.form['fname']
-    message = request.form['fmessage']
+    seller_name = request.form['fname']
+    email = request.form['femail']
+    phone = request.form['fphone']
+    location = request.form['flocation']
+    item = request.form['fitem']
+    price = request.form['fprice']
+    description = request.form['fmessage']
 
 
     # create a new document with the data the user entered
     doc = {
-        "name": name,
-        "message": message, 
+        "seller": seller_name,
+        "email": email,
+        "phone": phone,
+        "location": location,
+        "item_name": item,
+        "item_price": price,
+        "item_description": description,
+        "status": "availible",
         "created_at": datetime.datetime.utcnow()
     }
-    db.exampleapp.insert_one(doc) # insert a new document
+    db.posts.insert_one(doc) # insert a new document
 
     return redirect(url_for('read')) # tell the browser to make a request for the /read route
 
@@ -84,7 +101,7 @@ def edit(mongoid):
     Route for GET requests to the edit page.
     Displays a form users can fill out to edit an existing record.
     """
-    doc = db.exampleapp.find_one({"_id": ObjectId(mongoid)})
+    doc = db.posts.find_one({"_id": ObjectId(mongoid)})
     return render_template('edit.html', mongoid=mongoid, doc=doc) # render the edit template
 
 
@@ -94,17 +111,13 @@ def edit_post(mongoid):
     Route for POST requests to the edit page.
     Accepts the form submission data for the specified document and updates the document in the database.
     """
-    name = request.form['fname']
-    message = request.form['fmessage']
 
     doc = {
         # "_id": ObjectId(mongoid), 
-        "name": name, 
-        "message": message, 
-        "created_at": datetime.datetime.utcnow()
+        "status": "pending",
     }
 
-    db.exampleapp.update_one(
+    db.posts.update_one(
         {"_id": ObjectId(mongoid)}, # match criteria
         { "$set": doc }
     )
@@ -115,11 +128,38 @@ def edit_post(mongoid):
 @app.route('/delete/<mongoid>')
 def delete(mongoid):
     """
+    Route for GET requests to the edit page.
+    Displays a form users can fill out to edit an existing record.
+    """
+    doc = db.posts.find_one({"_id": ObjectId(mongoid)})
+    return render_template('delete.html', mongoid=mongoid, doc=doc) # render the edit template
+
+
+@app.route('/delete/<mongoid>', methods=["POST"])
+def delete_post(mongoid):
+    """
     Route for GET requests to the delete page.
     Deletes the specified record from the database, and then redirects the browser to the read page.
     """
-    db.exampleapp.delete_one({"_id": ObjectId(mongoid)})
+    db.posts.delete_one({"_id": ObjectId(mongoid)})
     return redirect(url_for('read')) # tell the web browser to make a request for the /read route.
+
+@app.route('/cancel/<mongoid>')
+def cancel_transaction(mongoid):
+    """
+    Cancels a pending transaction.
+    """
+    doc = {
+        # "_id": ObjectId(mongoid), 
+        "status": "availible",
+    }
+
+    db.posts.update_one(
+        {"_id": ObjectId(mongoid)}, # match criteria
+        { "$set": doc }
+    )
+
+    return redirect(url_for('read'))
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
